@@ -6,7 +6,7 @@ from urllib.parse import quote  # Import quote for URL encoding
 
 def generate_qr_code(data):
     qr = qrcode.QRCode(
-        version=1,
+        version=None,  # Let qrcode library choose the best version
         error_correction=qrcode.constants.ERROR_CORRECT_L,
         box_size=10,
         border=4,
