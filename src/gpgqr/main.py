@@ -43,35 +43,27 @@ def save_qr_as_png(img, filename="revoke_qr.png"):
         print(f"Error saving QR code as PNG: {e}")
         return False
 
+
 def upload_to_site(img):
-    upload_url = "https://transfer.sh/"
+    upload_url = "https://tmpfiles.org/api/v1/upload"
+
     try:
         # Save the image to a BytesIO object (in memory)
         img_buffer = BytesIO()
         img.save(img_buffer, "png")
         img_buffer.seek(0)  # Reset the buffer's position to the beginning
 
-        # Save the image to a temporary file
-        with open("temp_qr.png", "wb") as f:
-            img.save(f, "png")
-
-        # Use curl to upload the file
-        process = subprocess.run(['curl', '--upload-file', 'temp_qr.png', upload_url], capture_output=True, text=True, check=True)
-        upload_url = process.stdout.strip()
-        print(f"Uploaded successfully. URL: {upload_url}")
-        os.remove("temp_qr.png")
+        files = {'file': ('qr_code.png', img_buffer, 'image/png')}
+        response = requests.post(upload_url, files=files)
+        response.raise_for_status()
+        print(f"Uploaded successfully. URL: {response.json()['data']['url']}")
         return True
+
     except requests.exceptions.RequestException as e:
         print(f"Upload error: {e}")
         return False
-    except FileNotFoundError:
-        print("Error: Temporary file not found. Please check your file system permissions.")
-        return False
-    except subprocess.CalledProcessError as e:
-        print(f"Error executing curl: {e}")
-        print("Please check your internet connection and firewall settings.")
-        print("If you are behind a proxy, ensure that the proxy settings are configured correctly.")
-        print(f"curl stderr: {e.stderr}")
+    except KeyError as e:
+        print(f"Unexpected response from tmpfiles.org: {e}")
         return False
     except Exception as e:
         print(f"An unexpected error occurred during upload: {e}")
