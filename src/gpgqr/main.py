@@ -48,7 +48,7 @@ def upload_to_site(img):
     try:
         # Save the image to a BytesIO object (in memory)
         img_buffer = BytesIO()
-        img.save(img_buffer, format="PNG")
+        img.save(img_buffer, "PNG")
         img_buffer.seek(0)  # Reset the buffer's position to the beginning
 
         files = {'file': ('qr_code.png', img_buffer, 'image/png')}
