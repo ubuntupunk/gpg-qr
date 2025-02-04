@@ -2,6 +2,7 @@ import qrcode
 import subprocess
 import requests
 from io import BytesIO
+import shutil
 import os
 from urllib.parse import quote  # Import quote for URL encoding
 
@@ -43,23 +44,37 @@ def save_qr_as_png(img, filename="revoke_qr.png"):
         return False
 
 def upload_to_site(img):
-    upload_url = "https://tmpfiles.org/"
-
+    upload_url = "https://transfer.sh/"
     try:
         # Save the image to a BytesIO object (in memory)
         img_buffer = BytesIO()
-        img.save(img_buffer, "PNG")
+        img.save(img_buffer, "png")
         img_buffer.seek(0)  # Reset the buffer's position to the beginning
 
-        files = {'file': ('qr_code.png', img_buffer, 'image/png')}
-        headers = {'User-Agent': 'Mozilla/5.0'}  # Add a User-Agent header
-        response = requests.post(upload_url, files=files, headers=headers)
-        response.raise_for_status()
-        print(f"Uploaded successfully. URL: {response.text.strip()}")
+        # Save the image to a temporary file
+        with open("temp_qr.png", "wb") as f:
+            img.save(f, "png")
+
+        # Use curl to upload the file
+        process = subprocess.run(['curl', '--upload-file', 'temp_qr.png', upload_url], capture_output=True, text=True, check=True)
+        upload_url = process.stdout.strip()
+        print(f"Uploaded successfully. URL: {upload_url}")
+        os.remove("temp_qr.png")
         return True
     except requests.exceptions.RequestException as e:
         print(f"Upload error: {e}")
         return False
+    except FileNotFoundError:
+        print("Error: Temporary file not found. Please check your file system permissions.")
+        return False
+    except subprocess.CalledProcessError as e:
+        print(f"Error executing curl: {e}")
+        print(f"curl stderr: {e.stderr}")
+        return False
+    except Exception as e:
+        print(f"An unexpected error occurred during upload: {e}")
+        return False
+
 
 def main():
     revoke_cert_path = input("Enter the path to your GPG revoke certificate:\n")
@@ -92,7 +107,6 @@ def main():
                         if not upload_to_site(img):
                             print("Action failed. Please check the error message.")
                     elif action == '4':
-
                         break
                     else:
                         print("Invalid action.")
