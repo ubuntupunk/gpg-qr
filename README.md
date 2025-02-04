@@ -1,6 +1,6 @@
 # gpg-qr
 
-A simple tool to generate QR codes from GPG revoke certificates.
+A simple tool to generate QR codes from GPG public keys and revoke certificates.Useful for printing out hardcopy.
 
 ## Options ##
 1. Display in Terminal
