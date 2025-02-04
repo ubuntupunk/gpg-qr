@@ -18,24 +18,33 @@ def generate_qr_code(data):
 
 def display_qr_in_terminal(data):
     try:
-        process = subprocess.run(['qrencode', '-t', 'UTF8', '-o', '-', data], capture_output=True, text=True, check=True)
+        # Attempt to save to a temporary file first to diagnose encoding issues
+        with open("temp_qr.txt", "w", encoding="utf-8") as temp_file:
+            temp_file.write(data)
+
+        process = subprocess.run(['qrencode', '-t', 'UTF8', '-o', '-', 'temp_qr.txt'], capture_output=True, text=True, check=True)
         print(process.stdout)
-        return True # Indicate success
+        os.remove("temp_qr.txt") # Clean up the temporary file
+        return True
     except FileNotFoundError:
         print("Error: qrencode is not installed. Please install it (e.g., 'apt install qrencode' or your system's equivalent).")
-        return False # Indicate failure
+        return False
     except subprocess.CalledProcessError as e:
         print(f"Error executing qrencode: {e}")
-        return False # Indicate failure
+        print(f"qrencode stderr: {e.stderr}") #Added to show stderr
+        return False
+    except Exception as e:
+        print(f"An unexpected error occurred during terminal display: {e}")
+        return False
 
 def save_qr_as_png(img, filename="revoke_qr.png"):
     try:
         img.save(filename)
         print(f"QR code saved as {filename}")
-        return True # Indicate success
+        return True
     except Exception as e:
         print(f"Error saving QR code as PNG: {e}")
-        return False # Indicate failure
+        return False
 
 def upload_to_site(data, upload_url):
     pad_name = input("Enter a name for the Riseup pad: ")
@@ -43,21 +52,17 @@ def upload_to_site(data, upload_url):
         print("Pad name cannot be empty.  Aborting upload.")
         return False
 
-    # Construct the URL for creating a new pad.  We need to URL-encode the pad name.
     create_pad_url = f"{upload_url}/p/{quote(pad_name)}"
 
     try:
-        # The riseup pad doesn't accept file uploads, so we need to send the data as a parameter.
-        # We'll create a new pad with the given name and then populate it with the certificate data.
         params = {'text': data}
         response = requests.post(create_pad_url, data=params)
-        response.raise_for_status()  # Raise HTTPError for bad responses (4xx or 5xx)
-
+        response.raise_for_status()
         print(f"Uploaded successfully. Response: {response.text}")
-        return True # Indicate success
+        return True
     except requests.exceptions.RequestException as e:
         print(f"Upload error: {e}")
-        return False # Indicate failure
+        return False
 
 def main():
     revoke_cert_path = input("Enter the path to your GPG revoke certificate:\n")
