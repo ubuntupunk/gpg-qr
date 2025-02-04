@@ -11,4 +11,4 @@ A simple tool to generate QR codes from GPG revoke certificates.
 pip install gpg-qr
 
 ## License ##
-[GPL3]()
+[GPL3](LICENSE)
