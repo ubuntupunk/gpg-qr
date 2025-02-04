@@ -5,10 +5,12 @@ A simple tool to generate QR codes from GPG public keys and revoke certificates.
 ## Options ##
 1. Display in Terminal
 2. Save as PNG
-3. Upload to TempFiles.org
+3. Upload PNG to TempFiles.org
 
 ## Installation ##
+```python
 pip install gpg-qr
+```
 
 ## License ##
 [GPL3](LICENSE)
