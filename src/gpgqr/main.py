@@ -69,6 +69,8 @@ def upload_to_site(img):
         return False
     except subprocess.CalledProcessError as e:
         print(f"Error executing curl: {e}")
+        print("Please check your internet connection and firewall settings.")
+        print("If you are behind a proxy, ensure that the proxy settings are configured correctly.")
         print(f"curl stderr: {e.stderr}")
         return False
     except Exception as e:
