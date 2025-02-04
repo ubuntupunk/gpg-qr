@@ -18,7 +18,7 @@ def generate_qr_code(data):
 
 def display_qr_in_terminal(data):
     try:
-        process = subprocess.run(['qrencode', '-t', 'UTF8', '-o', '-', data], capture_output=True, text=True, check=True)
+        process = subprocess.run(['qrencode', '-t', 'UTF8', '-o', '-'], input=data, capture_output=True, text=True, check=True)
         print(process.stdout)
         return True
     except FileNotFoundError:
