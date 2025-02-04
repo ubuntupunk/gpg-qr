@@ -18,13 +18,8 @@ def generate_qr_code(data):
 
 def display_qr_in_terminal(data):
     try:
-        # Attempt to save to a temporary file first to diagnose encoding issues
-        with open("temp_qr.txt", "w", encoding="utf-8") as temp_file:
-            temp_file.write(data)
-
-        process = subprocess.run(['qrencode', '-t', 'UTF8', '-o', '-', 'temp_qr.txt'], capture_output=True, text=True, check=True)
+        process = subprocess.run(['qrencode', '-t', 'UTF8', '-o', '-', data], capture_output=True, text=True, check=True)
         print(process.stdout)
-        os.remove("temp_qr.txt") # Clean up the temporary file
         return True
     except FileNotFoundError:
         print("Error: qrencode is not installed. Please install it (e.g., 'apt install qrencode' or your system's equivalent).")
