@@ -1,6 +1,7 @@
 import qrcode
 import subprocess
 import requests
+from io import BytesIO
 import os
 from urllib.parse import quote  # Import quote for URL encoding
 
@@ -41,19 +42,19 @@ def save_qr_as_png(img, filename="revoke_qr.png"):
         print(f"Error saving QR code as PNG: {e}")
         return False
 
-def upload_to_site(data, upload_url):
-    pad_name = input("Enter a name for the Riseup pad: ")
-    if not pad_name:
-        print("Pad name cannot be empty.  Aborting upload.")
-        return False
-
-    create_pad_url = f"{upload_url}/p/{quote(pad_name)}"
+def upload_to_site(img):
+    upload_url = "https://tmpfiles.org/"
 
     try:
-        params = {'text': data}
-        response = requests.post(create_pad_url, data=params)
+        # Save the image to a BytesIO object (in memory)
+        img_buffer = BytesIO()
+        img.save(img_buffer, format="PNG")
+        img_buffer.seek(0)  # Reset the buffer's position to the beginning
+
+        files = {'file': ('qr_code.png', img_buffer, 'image/png')}
+        response = requests.post(upload_url, files=files)
         response.raise_for_status()
-        print(f"Uploaded successfully. Response: {response.text}")
+        print(f"Uploaded successfully. URL: {response.text.strip()}")
         return True
     except requests.exceptions.RequestException as e:
         print(f"Upload error: {e}")
@@ -84,13 +85,13 @@ def main():
                             print("Action failed. Please check the error message.")
                     elif action == '2':
                         save_filename = input("Enter filename for PNG (default: revoke_qr.png): ") or "revoke_qr.png"
-                        if not save_qr_as_png(img, save_filename):
+                        if not save_qr_as_png(img, save_filename): #save_qr_as_png returns a boolean, not the image
                             print("Action failed. Please check the error message.")
                     elif action == '3':
-                        upload_url = "https://pad.riseup.net"
-                        if not upload_to_site(revoke_cert_content, upload_url):
+                        if not upload_to_site(img):
                             print("Action failed. Please check the error message.")
                     elif action == '4':
+
                         break
                     else:
                         print("Invalid action.")
