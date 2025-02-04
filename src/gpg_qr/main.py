@@ -5,6 +5,8 @@ from io import BytesIO
 import shutil
 import os
 from urllib.parse import quote  # Import quote for URL encoding
+import cv2
+import utils
 
 # ANSI color codes
 COLOR_RESET = "\033[0m"
@@ -25,24 +27,7 @@ def generate_qr_code(data):
     img = qr.make_image(fill_color="black", back_color="white")
     return img
 
-def display_qr_in_terminal(data):
-    try:
-        process = subprocess.run(['qrencode', '-t', 'UTF8', '-o', '-'], input=data, capture_output=True, text=True, check=True)
-        print(process.stdout)
-
-        return True
-    except FileNotFoundError:
-        print("Error: qrencode is not installed. Please install it (e.g., 'apt install qrencode' or your system's equivalent).")
-        return False
-    except subprocess.CalledProcessError as e:
-        print(f"Error executing qrencode: {e}")
-        print(f"qrencode stderr: {e.stderr}") #Added to show stderr
-        return False
-    except Exception as e:
-        print(f"An unexpected error occurred during terminal display: {e}")
-        return False
-
-def save_qr_as_png(img, filename="revoke_qr.png"):
+def save_qr_as_png(img, filename="qr.png"):
     try:
         img.save(filename) #save the image
         print(f"QR code saved as {filename}")
@@ -98,7 +83,7 @@ def main():
 
                 try:
                     if action == '1':
-                        if not display_qr_in_terminal(revoke_cert_content):
+                        if not utils.display_qr_in_terminal():
                             print(f"{COLOR_RED}Action failed. Please check the error message.{COLOR_RESET}")
                     elif action == '2':
                         save_filename = input(f"{COLOR_BLUE}Enter filename for PNG (default: revoke_qr.png): {COLOR_RESET}") or "revoke_qr.png"
