@@ -11,9 +11,9 @@ setup(
     install_requires=[
         'qrcode',
         'requests',
-        'Pillow'  # For saving as PNG
-    ],
-    long_description=long_description,
+        'pillow,
+           ],
+    long_description=open('README.md').read(),
     long_description_content_type="text/markdown",
     url="https://github.com/ubuntupunk/gpg-qr",
     author="David Robert Lewis",
@@ -25,7 +25,8 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'gpgqr = gpgqr.main:main',
+            'gpg-qr=gpg_qr.main:main',
         ],
     },
-)
+    python_requires=">=3.6",
+    )
