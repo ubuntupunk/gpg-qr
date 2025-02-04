@@ -2,7 +2,7 @@ import qrcode
 import subprocess
 import requests
 import os
-from PIL import Image  # Import Pillow
+#from PIL import Image  # Import Pillow
 
 def generate_qr_code(data):
     qr = qrcode.QRCode(
