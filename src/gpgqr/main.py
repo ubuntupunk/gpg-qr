@@ -52,7 +52,8 @@ def upload_to_site(img):
         img_buffer.seek(0)  # Reset the buffer's position to the beginning
 
         files = {'file': ('qr_code.png', img_buffer, 'image/png')}
-        response = requests.post(upload_url, files=files)
+        headers = {'User-Agent': 'Mozilla/5.0'}  # Add a User-Agent header
+        response = requests.post(upload_url, files=files, headers=headers)
         response.raise_for_status()
         print(f"Uploaded successfully. URL: {response.text.strip()}")
         return True
