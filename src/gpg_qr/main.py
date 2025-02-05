@@ -63,9 +63,9 @@ def upload_to_site(img):
 
 
 def main():
-    revoke_cert_path = input(f"{COLOR_BLUE}Enter the path to your GPG revoke certificate:{COLOR_RESET}\n")
+    revoke_cert_path = input(f"{COLOR_BLUE}Enter name of your GPG key or revoke certificate:{COLOR_RESET}\n")
     if not revoke_cert_path:
-        print(f"{COLOR_RED}Revoke certificate path cannot be empty. Exiting.{COLOR_RESET}")
+        print(f"{COLOR_RED}Key or certificate name cannot be empty. Exiting.{COLOR_RESET}")
         return
 
     try:
@@ -86,8 +86,8 @@ def main():
                         if not utils.display_qr_in_terminal():
                             print(f"{COLOR_RED}Action failed. Please check the error message.{COLOR_RESET}")
                     elif action == '2':
-                        save_filename = input(f"{COLOR_BLUE}Enter filename for PNG (default: revoke_qr.png): {COLOR_RESET}") or "revoke_qr.png"
-                        if not save_qr_as_png(img, save_filename): #save_qr_as_png returns a boolean, not the image
+                        save_filename = input(f"{COLOR_BLUE}Enter filename for PNG (default: qr.png): {COLOR_RESET}") or "revoke_qr.png"
+                        if not save_qr_as_png(img, save_filename): #save_qr_as_png returins a boolean, not the image
                             print(f"{COLOR_RED}Action failed. Please check the error message.{COLOR_RESET}")
                     elif action == '3':
                         if not upload_to_site(img):

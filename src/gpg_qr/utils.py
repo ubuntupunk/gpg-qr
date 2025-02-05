@@ -1,4 +1,4 @@
-# This file is currently empty, but you can move utility functions here if desired
+# Function for displaying QR code under option 1 in main.py
 
 import cv2
 def display_qr_in_terminal():
