@@ -51,7 +51,6 @@ def save_qr_as_png(img, filename="qr.png"):
         print(f"Error saving QR code as PNG: {e}")
         return False
 
-
 def upload_to_site(img):
     upload_url = "https://tmpfiles.org/api/v1/upload"
 
