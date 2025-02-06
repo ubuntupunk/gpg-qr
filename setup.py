@@ -6,6 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setup(
     name='gpg-qrcode',
     version='0.1.2',
+    license_file="LICENSE",
     packages=find_packages('src'),
     package_dir={'': 'src'},
     install_requires=[
