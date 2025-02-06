@@ -4,18 +4,18 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name='gpg-qr',
-    version='0.1.0',
+    name='gpg-qrcode',
+    version='0.1.1',
     packages=find_packages('src'),
     package_dir={'': 'src'},
     install_requires=[
         'qrcode',
         'requests',
-        'pillow,
+        'pillow',
            ],
     long_description=open('README.md').read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/ubuntupunk/gpg-qr",
+    url="https://github.com/ubuntupunk/gpg-qrcode",
     author="David Robert Lewis",
     author_email="ubuntupunk@gmail.com",
     classifiers=[
@@ -25,7 +25,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'gpg-qr=gpg_qr.main:main',
+            'gpg-qrcode=gpg_qr.main:main',
         ],
     },
     python_requires=">=3.6",

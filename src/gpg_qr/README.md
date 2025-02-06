@@ -1,4 +1,4 @@
-# gpg-qr
+# gpg-qrcode
 
 A simple tool to generate QR codes from GPG ascii keys and revoke certificates.Useful for printing out hardcopy.
 
@@ -10,7 +10,7 @@ A simple tool to generate QR codes from GPG ascii keys and revoke certificates.U
 
 ## Installation ##
 ```python
-pip install gpg-qr
+pip install gpg-qrcode
 ```
 
 ## Note
