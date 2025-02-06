@@ -21,7 +21,6 @@ setup(
     author_email="ubuntupunk@gmail.com",
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: GPL v3 or later (GPLv3+)",
         "Operating System :: OS Independent",
     ],
     entry_points={
