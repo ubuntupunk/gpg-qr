@@ -1,6 +1,6 @@
 # gpg-qrcode
 
-A simple tool to generate QR codes from GPG ascii keys and revoke certificates.Useful for printing out hardcopy.
+A simple, lightweight tool to generate QR codes from GPG ascii keys and revoke certificates.
 
 ## Options ##
 1. Display in Terminal
@@ -17,6 +17,8 @@ pip install gpg-qrcode
 This is the qrencode version with the following python dependencies:
 qrcode, requests, pillow. Please install [qrencode](https://fukuchi.org/works/qrencode/) via your package manager.
 
+If you want to install the cv2 version it is available on cv2 branch from the github repo.
+
 
 ## License ##
-[GPL3](LICENSE)
+[GPL-3.0-only](LICENSE)
