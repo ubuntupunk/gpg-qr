@@ -51,7 +51,7 @@ def save_qr_as_png(img, filename="qr.png"):
         print(f"Error saving QR code as PNG: {e}")
         return False
 
-def upload_to_site(img):
+def upload_to_site(img, filename="qr.png"):
     upload_url = "https://tmpfiles.org/api/v1/upload"
 
     try:
@@ -61,7 +61,7 @@ def upload_to_site(img):
         img_buffer.seek(0)  # Reset the buffer's position to the beginning
 
         files = {'file': ('qr.png', img_buffer, 'image/png')}
-        response = requests.post(upload_url, files=files)
+        response = requests.post(upload_url, files=files) #, timeout=10
         response.raise_for_status()
         print(f"{COLOR_GREEN}Uploaded successfully. URL: {response.json()['data']['url']}{COLOR_RESET}")
         return True
@@ -105,7 +105,10 @@ def main():
                         if not save_qr_as_png(img, save_filename): #save_qr_as_png returns a boolean, not the image
                             print(f"{COLOR_RED}Action failed. Please check the error message.{COLOR_RESET}")
                     elif action == '3':
-                        if not upload_to_site(img):
+                        if not os.path.exists("qr.png"):
+                            print(f"{COLOR_YELLOW}PNG image not found. Please save the QR code as a PNG first (option 2).{COLOR_RESET}")
+                            continue
+                        if not upload_to_site(img): #removed filename
                             print(f"{COLOR_RED}Action failed. Please check the error message.{COLOR_RESET}")
                     elif action == '4':
                         break
