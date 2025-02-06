@@ -5,7 +5,9 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='gpg-qrcode',
-    version='0.1.2',
+    version='0.1.3',
+    summary='A tool for generating qr codes from gpg certificates',
+    description='A tool for generating qr-codes from gpg ascii keys and revoke certificates',
     license_file="LICENSE",
     packages=find_packages('src'),
     package_dir={'': 'src'},
@@ -19,6 +21,7 @@ setup(
     url="https://github.com/ubuntupunk/gpg-qrcode",
     author="David Robert Lewis",
     author_email="ubuntupunk@gmail.com",
+    keywords='revoke, gpg, qrcode',
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
