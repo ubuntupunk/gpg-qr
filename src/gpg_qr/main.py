@@ -105,7 +105,8 @@ def main():
                         if not save_qr_as_png(img, save_filename): #save_qr_as_png returns a boolean, not the image
                             print(f"{COLOR_RED}Action failed. Please check the error message.{COLOR_RESET}")
                     elif action == '3':
-                        if not os.path.exists("qr.png"):
+                        import glob
+                        if not glob.glob("*.png"):
                             print(f"{COLOR_YELLOW}PNG image not found. Please save the QR code as a PNG first (option 2).{COLOR_RESET}")
                             continue
                         if not upload_to_site(img): #removed filename
