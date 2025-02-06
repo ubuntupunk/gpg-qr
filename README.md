@@ -16,7 +16,7 @@ Place your ascii public.key or revoke.asc in the directory in which you invoke t
 pip install gpg-qrcv
 ```
 ## Note
-This is the cv2 version which uses the cv2 library for processing of the qr code, its a big library and the wheel may take time to build on older machines. A [qrencode](https://fukuchi.org/works/qrencode/) version is available on qrencode branch for those who are able to install it.
+This is the cv2 version which uses the cv2 library for processing of the qr code, its a big library and the wheel may take time to build on older machines. A lightweight [qrencode](https://fukuchi.org/works/qrencode/) version is available on qrencode branch for those who are able to install it.
 
 ## License ##
 [GPL3](LICENSE)
