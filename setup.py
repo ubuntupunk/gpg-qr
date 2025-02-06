@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='gpg-qrcode',
-    version='0.1.1',
+    version='0.1.2',
     packages=find_packages('src'),
     package_dir={'': 'src'},
     install_requires=[
@@ -20,7 +20,7 @@ setup(
     author_email="ubuntupunk@gmail.com",
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
+        "License :: OSI Approved :: GNU General Public License (GPLv3)",
         "Operating System :: OS Independent",
     ],
     entry_points={
